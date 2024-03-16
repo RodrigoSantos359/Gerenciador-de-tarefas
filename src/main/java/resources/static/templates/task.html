@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasks</title>
+</head>
+<body>
+    <h2>Welcome to Tasks Page</h2>
+    <p>This is the main tasks page. You can add your tasks here.</p>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Fetch and display tasks
+        function fetchTasks() {
+            fetch('/api/tasks')
+                .then(response => response.json())
+                .then(tasks => {
+                    // Display tasks
+                    tasks.forEach(task => {
+                        const taskElement = document.createElement('p');
+                        taskElement.textContent = task.title;
+                        document.body.appendChild(taskElement);
+                    });
+                })
+                .catch(error => console.error('Error fetching tasks:', error));
+        }
+
+        // Call fetchTasks function
+        fetchTasks();
+    </script>
+    <a href="#" onclick="event.preventDefault(); fetchTasks();"></a>
+    
+</body>
+</html>

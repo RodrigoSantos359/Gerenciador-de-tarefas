@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').submit(function(event) {
+                event.preventDefault();
+                var formData = {
+                    email: $('input[name="email"]').val(),
+                    password: $('input[name="password"]').val()
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    contentType: 'application/json',
+                    data: JSON.stringify(formData),
+                    success: function(response) {
+                        // Armazenar token em localStorage ou cookies
+                        localStorage.setItem('token', response.token);
+                        // Redirecionar para a página principal
+                        window.location.href = '/tasks';
+                    },
+                    error: function() {
+                        alert('Falha ao fazer login. Por favor, verifique suas credenciais.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
